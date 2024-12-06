@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: "configserver"
+  profiles:
+    active: native # active: git
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: "classpath:/config" # Chỗ này thay bằng đường dẫn thư mục cũng ok.
+
+#        git:
+#          uri:
+#          default-label: main
+#          timeout: 5
+#          clone-on-start: true
+#           face-pull:true
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+    rabbit:
+      enabled: false
+
+
+#  Kích hoạt profile native cho Config Server. Profile này báo cho Spring Cloud Config Server sử dụng các file cấu hình được lưu cục bộ trong project thay vì kết nối tới Git, SVN hoặc các kho lưu trữ bên ngoài.
+server:
+  port: 8071

@@ -1,0 +1,49 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "accounts"
+  profiles:
+    active: "prod"
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/accountsdb
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+  sql:
+    init:
+      mode: always # Tự tạo db từ file schema.sql
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+#optional: Không bắt buộc, tức là ứng dụng vẫn chạy nếu Config Server không khả dụng.
+#configserver: Chỉ rõ rằng cấu hình đang được lấy từ Spring Cloud Config Server.
+#http://localhost:8071/: Địa chỉ của Config Server.
+
+#  config:
+#    import:
+#      - "application_qa.yml"
+#      - "application_prod.yml"
+#  profiles:
+#   active:
+#     - "qa"
+#
+#build:
+#  version: "3.0"
+#
+#accounts:
+#  message: "Welcome to EazyBank accounts related local APIs"
+#  contactDetails:
+#    name: "Dang-Dev"
+#    email: "dangdev@gmail.com"
+#  onCallSupport:
+#    -(555) 555-1234

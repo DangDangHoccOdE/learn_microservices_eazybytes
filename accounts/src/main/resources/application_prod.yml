@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+build:
+  version: "1.0"
+
+accounts:
+  message: "Welcome to EazyBank accounts related prod APIs"
+  contactDetails:
+    name: "Milo-Product Owner"
+    email: "milodev@gmail.com"
+  onCallSupport:
+    -(555) 555-1234
