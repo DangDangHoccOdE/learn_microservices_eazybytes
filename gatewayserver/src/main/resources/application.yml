@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: "gatewayserver"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 10s # Cấu hình timeout request
+    data:
+      redis:
+        connect-timeout: 2s
+        host: localhost
+        port: 6379
+        timeout: 1s
+    circuitbreaker:
+      resilience4j:
+        enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "Eazy Bank Gateway Server Application"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      eazybytes:
+        gatewayserver: DEBUG
+#resilience4j:
+#  circuitbreaker:
+#    configs:
+#      default:
+#        sliding-window-size: 10 #  Circuit Breaker sẽ giám sát kết quả của 10 cuộc gọi gần nhất để đánh giá tỷ lệ lỗi (failure rate).
+#        permitted-number-of-calls-in-half-open-state: 2
+#        # Khi Circuit Breaker ở trạng thái half-open, nó sẽ cho phép 2 cuộc gọi thử nghiệm. Nếu các cuộc gọi này thành công, Circuit Breaker sẽ chuyển về trạng thái closed.
+#        failure-rate-threshold: 50
+#        # Nếu tỷ lệ lỗi của các cuộc gọi vượt quá 50%, Circuit Breaker sẽ kích hoạt (chuyển sang trạng thái open).
+#        wait-duration-in-open-state: 10000
+#        # Circuit Breaker sẽ đợi 10 giây trước khi thử cho phép các cuộc gọi kiểm tra (ở trạng thái half-open).
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountsCircuitBreaker:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 2
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s

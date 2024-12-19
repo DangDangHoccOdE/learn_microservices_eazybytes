@@ -37,15 +37,28 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>mysql</groupId>-->
+<!--			<artifactId>mysql-connector-java</artifactId>-->
+<!--			<version>8.0.29</version> &lt;!&ndash; Hoặc phiên bản mới hơn &ndash;&gt;-->
+<!--		</dependency>-->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.29</version> <!-- Hoặc phiên bản mới hơn -->
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -82,32 +95,34 @@
 
 	<build>
 		<plugins>
-			<!-- Plugin Maven Compiler -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version> <!-- Phiên bản mới nhất -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<source>17</source> <!-- Đặt version Java của dự án -->
-					<target>17</target>
-					<annotationProcessorPaths>
-						<path>
+					<excludes>
+						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.30</version>
-						</path>
-					</annotationProcessorPaths>
+						</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 
 			<!-- Plugin Spring Boot -->
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.2</version>
 				<configuration>
-					<image>
-						<name>eazybytes/${project.artifactId}</name>
-					</image>
+					<from>
+						<image>eclipse-temurin:23-jre</image>
+					</from>
+					<container>
+						<mainClass>com.eazybytes.loans.LoansApplication</mainClass>
+					</container>
+					<to>
+						<image>eazybytes/${project.artifactId}</image>
+					</to>
 				</configuration>
 			</plugin>
 		</plugins>

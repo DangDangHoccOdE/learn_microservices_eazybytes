@@ -9,7 +9,7 @@ spring:
         native:
           search-locations: "classpath:/config" # Chỗ này thay bằng đường dẫn thư mục cũng ok.
 
-#        git:
+#        git: https://github.com/eazybytes/eazybytes-config.git
 #          uri:
 #          default-label: main
 #          timeout: 5
@@ -32,7 +32,9 @@ management:
       enabled: true
     rabbit:
       enabled: false
-
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 #  Kích hoạt profile native cho Config Server. Profile này báo cho Spring Cloud Config Server sử dụng các file cấu hình được lưu cục bộ trong project thay vì kết nối tới Git, SVN hoặc các kho lưu trữ bên ngoài.
 server:
