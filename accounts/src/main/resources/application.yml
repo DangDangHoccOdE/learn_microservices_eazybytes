@@ -38,6 +38,24 @@ spring:
     openfeign:
       circuitbreaker:
         enabled: true
+    function:
+      definition: updateCommunication
+    stream:
+      bindings:
+        updateCommunication-in-0:
+          destination: communication-sent
+          group: ${spring.application.name}
+        sendCommunication-out-0:
+          destination: send-communication
+    kafka:
+      binder:
+        brokers:
+          - localhost:9092
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    password: guest
+#    connection-timeout: 10s
 
 management:
   endpoints:
@@ -101,9 +119,6 @@ resilience4j:
         timeout-duration: 1000
         limit-for-period: 5000
         limit-refresh-period: 1
-
-
-
 
   retry:
     configs:

@@ -1,0 +1,25 @@
+server:
+  port: 9010
+
+spring:
+  application:
+    name: "message"
+  cloud:
+    function:
+      definition: email|sms
+    stream:
+      bindings:
+        email|sms-in-0: # l?ng nghe th�ng ?i?p t? topic ho?c queue send-communication.
+          destination: send-communication  # l� t�n c?a topic ho?c queue
+          group: ${spring.application.name} # chia s? vi?c ti�u th? th�ng ?i?p gi?a nhi?u instance c?a ?ng d?ng
+        email|sms-out-0:
+          destination: communication-sent
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    password: guest
+#    connection-timeout: 10s
